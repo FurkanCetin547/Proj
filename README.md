@@ -18,24 +18,38 @@ By analyzing these aspects, we can uncover patterns in audience preferences, the
 The primary data for this project will be sourced from publicly available datasets:
 
 ### Movie Reviews
-- **Source**: IMDb, Rotten Tomatoes, or Kaggle datasets (e.g., "IMDb Movie Reviews" or "Rotten Tomatoes Movie Reviews").
-- **Collection**: downloading pre-existing datasets. Metadata such as genre, release year, box office earnings, and director information will be added from IMDb or TMDB (The Movie Database).
+- **Source**: IMDb, Rotten Tomatoes, or Kaggle datasets (e.g., IMDb Movie Reviews or Rotten Tomatoes Movie Reviews).
+- **Collection**: Downloading pre-existing datasets. Metadata such as genre, release year, box office earnings, and director information will be added from IMDb or The Movie Database.
+
+### Enhancement with Additional Datasets
+- **Box Office Earnings**: To explore the relationship between sentiment and financial success.
+- **Awards Data**: To analyze whether award-winning movies receive more positive reviews.
+- **Social Media Reactions**: Social media platforms (Reddit etc.) for audience reactions to movies.
 
 ---
 
 ## Data Analysis
-The analysis will be divided into several stages:
 
-### Data Collection and Cleaning
-- Collect movie reviews and metadata.
+### 1. Data Collection and Cleaning
+- Collect movie reviews and metadata from IMDb, Rotten Tomatoes, or Kaggle.
 - Clean the data by handling missing values, removing duplicates, and standardizing formats.
+- Enhance the dataset with additional features such as box office earnings, awards, and genre labels.
 
-### Sentiment Analysis
-- Analyze sentiment trends over time and compare sentiment distributions across genres.
+### 2. Feature Engineering
+- **Sentiment Scores**: Use models to generate sentiment scores (positive, negative, neutral) for each review.
+- **Time-Based Features**: Create features such as release year and decade to analyze trends over time.
+- **Genre-Based Features**: Encode genres as categorical variables for comparison.
+- **Box Office Normalization**: Normalize box office earnings for inflation to ensure fair comparisons across years.
 
-### Visualization
+### 3. Sentiment Analysis
+- **Sentiment Classification**: Use models to classify reviews as positive, negative, or neutral based on their text.
+- **Trend Analysis**: Analyze how sentiment scores change over time and across different genres.
+- **Model Evaluation**: Check the accuracy of sentiment classification using labeled data to ensure reliable results.
+
+### 4. Visualization
 - Create time series plots to show sentiment trends over time.
 - Use bar charts, box plots, and heatmaps to compare sentiment across genres.
+- Visualize relationships between sentiment and box office earnings or awards.
 
 ---
 
@@ -47,4 +61,22 @@ The project aims to uncover the following insights:
 - Are there specific years or decades where sentiment shifted significantly?
 
 ### Genre-Based Sentiment Analysis
-- Which genres receive
+- Which genres receive the most positive or negative reviews?
+- Are certain genres more polarizing (e.g., horror, comedy)?
+- Do genre-specific trends align with broader cultural or societal changes?
+
+### Additional Insights
+- Is there a correlation between box office earnings and sentiment scores?
+- Do award-winning movies receive more positive reviews?
+
+---
+
+## Limitations and Future Work
+
+### Limitations
+- The accuracy of sentiment analysis depends on the quality of the NLP model and the dataset.
+- Data availability for older movies may be limited.
+
+### Future Work
+- Incorporate additional data sources, such as social media reactions or critic reviews, to enrich the analysis.
+- Explore the impact of external factors (e.g., box office performance, awards) on sentiment.
