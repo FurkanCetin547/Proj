@@ -1,16 +1,34 @@
-from data_collection import fetch_imdb_reviews
-from sentiment_analysis import analyze_sentiment
-import pandas as pd
+# Project configuration
+CONFIG = {
+    'data_sources': {
+        'imdb': True,
+        'rotten_tomatoes': False,  # Needs API
+        'tmdb_metadata': True      # Needs API
+    },
+    'analysis_years': (1990, 2023),
+    'main_genres': ['Drama', 'Comedy', 'Action', 'Horror', 'Sci-Fi']
+}
 
-#  Collect Data
-reviews = fetch_imdb_reviews("tt0111161")  # Example: The Shawshank Redemption
-df = pd.DataFrame({"review_text": reviews})
+def main():
+    print("Starting movie sentiment analysis pipeline...")
+    
+    # 1. Data Collection
+    print("\n=== Data Collection ===")
+    df = data_collection.collect_data()
+    
+    # 2. Sentiment Analysis
+    print("\n=== Sentiment Analysis ===")
+    df = sentiment_analysis.add_sentiment_scores(df)
+    
+    # 3. EDA
+    print("\n=== Exploratory Data Analysis ===")
+    eda.perform_eda(df)
+    
+    # 4. Hypothesis Testing
+    print("\n=== Hypothesis Testing ===")
+    hypothesis_testing.perform_hypothesis_tests(df)
+    
+    print("\nAnalysis complete! Check the plots/ and data/ folders for results.")
 
-#  Sentiment Analysis
-df["sentiment_score"] = df["review_text"].apply(analyze_sentiment)
-
-#  Save Data
-df.to_csv("data/movie_reviews_with_sentiment.csv", index=False)
-
-print("Analysis complete. Check the 'data' folder for results.")
-
+if __name__ == "__main__":
+    main()
