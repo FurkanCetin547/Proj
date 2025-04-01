@@ -89,6 +89,12 @@ The project aims to uncover the following insights:
 - `eda.py` → Explores and visualizes data.
 - `hypothesis_testing.py` → Performs statistical hypothesis testing.
 
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/FurkanCetin547/Proj.git
+
 ## Steps in the Analysis:
 1. **Data Collection** → Scrape or load movie reviews.
 2. **Sentiment Analysis** → Apply sentiment scoring.
