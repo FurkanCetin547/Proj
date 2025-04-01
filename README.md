@@ -80,3 +80,17 @@ The project aims to uncover the following insights:
 ### Future Work
 - Incorporate additional data sources, such as social media reactions or critic reviews, to enrich the analysis.
 - Explore the impact of external factors (e.g., box office performance, awards) on sentiment.
+
+----
+## Project Files:
+- `main.py` → Runs the entire analysis.
+- `data_collection.py` → Collects movie reviews.
+- `sentiment_analysis.py` → Assigns sentiment scores.
+- `eda.py` → Explores and visualizes data.
+- `hypothesis_testing.py` → Performs statistical hypothesis testing.
+
+## Steps in the Analysis:
+1. **Data Collection** → Scrape or load movie reviews.
+2. **Sentiment Analysis** → Apply sentiment scoring.
+3. **EDA (Exploratory Data Analysis)** → Generate graphs & insights.
+4. **Hypothesis Testing** → Test for statistical significance.
