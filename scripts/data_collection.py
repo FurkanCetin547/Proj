@@ -1,33 +1,30 @@
-# data_collection.py
-import pandas as pd
-import requests
-from bs4 import BeautifulSoup
-import os
+# Sample IMDB dataset URL (from Kaggle)
+IMDB_DATASET_URL = "https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews"
 
-def load_imdb_data(file_path='data/imdb_reviews.csv'):
-    """Load IMDB data from a CSV file"""
-    if os.path.exists(file_path):
-        return pd.read_csv(file_path)
-    else:
-        print(f"File not found at {file_path}")
-        return None
+# Rotten Tomatoes API (you'll need an API key)
+RT_API_URL = "https://www.rottentomatoes.com/api/private/v2.0/search/"
+RT_API_KEY = "your_api_key_here"  # Register at developer.rottentomatoes.com
 
-def scrape_rotten_tomatoes(movie_url):
-    """Scrape reviews from Rotten Tomatoes"""
-    # Implement scraping logic here
-    pass
+# TMDB API for movie metadata
+TMDB_API_URL = "https://api.themoviedb.org/3/"
+TMDB_API_KEY = "your_tmdb_api_key"  # Register at themoviedb.org
 
-def collect_data():
-    # Try to load existing data first
-    imdb_data = load_imdb_data()
-    
-    if imdb_data is None:
-        print("Collecting data from alternative sources...")
-        # Implement fallback data collection
-        pass
-    
-    return imdb_data
+# Sample movie URLs for scraping (if needed)
+SAMPLE_MOVIE_URLS = [
+    "https://www.imdb.com/title/tt0111161/",  # Shawshank Redemption
+    "https://www.rottentomatoes.com/m/the_shawshank_redemption",
+    "https://www.imdb.com/title/tt0068646/"   # The Godfather
+]
 
-if __name__ == "__main__":
-    data = collect_data()
-    data.to_csv('data/collected_reviews.csv', index=False)
+def get_imdb_data():
+    """Load IMDB data from CSV or download from Kaggle"""
+    try:
+        # Option 1: Load from local CSV
+        return pd.read_csv("data/imdb_reviews.csv")
+    except FileNotFoundError:
+        # Option 2: Download from Kaggle (requires kaggle API)
+        from kaggle.api.kaggle_api_extended import KaggleApi
+        api = KaggleApi()
+        api.authenticate()
+        api.dataset_download_files('lakshmi25npathi/imdb-dataset-of-50k-movie-reviews', path='data', unzip=True)
+        return pd.read_csv("data/IMDB Dataset.csv")
