@@ -1,7 +1,7 @@
-# data_collection.py
-
 import os
 import pandas as pd
+import requests
+from bs4 import BeautifulSoup
 from imdb import IMDb
 
 # Initialize IMDb object
@@ -42,15 +42,7 @@ def fetch_imdb_data():
     metadata_df.to_csv('data/raw/IMDb/movies_metadata.csv', index=False)
     reviews_df.to_csv('data/raw/IMDb/movies_reviews.csv', index=False)
 
-# Fetch data
-fetch_imdb_data()
-
-
-
 # Function to fetch Rotten Tomatoes data
-import requests
-from bs4 import BeautifulSoup
-
 def fetch_rotten_tomatoes_data():
     url = 'https://www.rottentomatoes.com/top/bestofrt/'
     response = requests.get(url)
@@ -70,4 +62,5 @@ def fetch_rotten_tomatoes_data():
     df.to_csv('data/raw/RottenTomatoes/movies_metadata.csv', index=False)
 
 # Fetch data
+fetch_imdb_data()
 fetch_rotten_tomatoes_data()
