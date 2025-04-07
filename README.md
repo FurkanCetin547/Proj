@@ -83,14 +83,19 @@ The project aims to uncover the following insights:
 
 ----
 
-## Modules
-- **Data Collection**: IMDbPY and scraping Rotten Tomatoes
-- **EDA**: Exploratory Data Analysis
-- **Sentiment Analysis**: Using VADER
-- **Hypothesis Testing**: Genre vs Sentiment, Year vs Sentiment
-- **Visualization**: Trends and comparisons
----
-## How to Run
-1. Install dependencies: `pip install -r requirements.txt`
-2. Run `src/data_collection.py`
-3. Continue with `eda.py`, `sentiment_analysis.py`, etc.
+## Project Structure
+
+- `data/`: Contains raw data collected from IMDb and Rotten Tomatoes.
+  - `raw/`: Raw data files.
+    - `IMDb/`: Data collected from IMDb.
+    - `RottenTomatoes/`: Data collected from Rotten Tomatoes.
+- `src/`: Source code for data collection, analysis, and hypothesis testing.
+  - `__init__.py`: Marks the directory as a Python package.
+  - `data_collection.py`: Scripts to collect data from IMDb and Rotten Tomatoes.
+  - `data_analysis.py`: Scripts to analyze the collected data.
+  - `hypothesis_testing.py`: Scripts to perform hypothesis testing on the data.
+- `tests/`: Unit tests for the source code.
+  - `__init__.py`: Marks the directory as a Python package.
+  - `test_data_collection.py`: Tests for data collection scripts.
+  - `test_data_analysis.py`:
+::contentReference[oaicite:14]{index=14}
