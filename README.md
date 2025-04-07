@@ -82,3 +82,15 @@ The project aims to uncover the following insights:
 - Explore the impact of external factors (e.g., box office performance, awards) on sentiment.
 
 ----
+
+## Modules
+- **Data Collection**: IMDbPY and scraping Rotten Tomatoes
+- **EDA**: Exploratory Data Analysis
+- **Sentiment Analysis**: Using VADER
+- **Hypothesis Testing**: Genre vs Sentiment, Year vs Sentiment
+- **Visualization**: Trends and comparisons
+---
+## How to Run
+1. Install dependencies: `pip install -r requirements.txt`
+2. Run `src/data_collection.py`
+3. Continue with `eda.py`, `sentiment_analysis.py`, etc.
