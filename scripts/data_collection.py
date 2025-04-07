@@ -44,3 +44,30 @@ def fetch_imdb_data():
 
 # Fetch data
 fetch_imdb_data()
+
+
+
+# Function to fetch Rotten Tomatoes data
+import requests
+from bs4 import BeautifulSoup
+
+def fetch_rotten_tomatoes_data():
+    url = 'https://www.rottentomatoes.com/top/bestofrt/'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    movies = soup.find_all('tr', class_='top_movies')
+    movie_data = []
+    for movie in movies:
+        title = movie.find('a', class_='unstyled articleLink').text.strip()
+        rating = movie.find('span', class_='tMeterScore').text.strip()
+        year = movie.find('span', class_='sc-16ede01-2 fXrQjD').text.strip('()')
+        movie_data.append({
+            'title': title,
+            'year': year,
+            'rating': rating
+        })
+    df = pd.DataFrame(movie_data)
+    df.to_csv('data/raw/RottenTomatoes/movies_metadata.csv', index=False)
+
+# Fetch data
+fetch_rotten_tomatoes_data()
