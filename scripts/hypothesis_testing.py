@@ -1,18 +1,19 @@
+# src/hypothesis_testing.py
+
 import pandas as pd
-from scipy.stats import ttest_ind
+from scipy import stats
 
-data = pd.read_csv("data/processed/reviews_with_sentiment.csv")
+# Load data
+imdb_metadata_df = pd.read_csv('data/raw/IMDb/movies_metadata.csv')
+rt_metadata_df = pd.read_csv('data/raw/RottenTomatoes/movies_metadata.csv')
 
-def genre_vs_sentiment():
-    df = pd.read_csv("data/processed/movie_metadata.csv")
-    merged = pd.merge(data, df, on="title")
-    genres = merged.explode("genres")
+# Hypothesis testing functions
+def test_imdb_rt_ratings():
+    # Example: Test if there's a significant difference between IMDb and Rotten Tomatoes ratings
+    imdb_ratings = imdb_metadata_df['rating'].dropna()
+    rt_ratings = rt_metadata_df['rating'].dropna()
+    t_stat, p_value = stats.ttest_ind(imdb_ratings, rt_ratings)
+    print(f'T-test between IMDb and Rotten Tomatoes ratings: t-statistic = {t_stat}, p-value = {p_value}')
 
-    # Compare Drama vs Comedy sentiment
-    drama = genres[genres["genres"] == "Drama"]["sentiment_score"]
-    comedy = genres[genres["genres"] == "Comedy"]["sentiment_score"]
-    stat, p = ttest_ind(drama, comedy, nan_policy='omit')
-    print(f"T-test between Drama and Comedy sentiment: p={p:.4f}")
-
-if __name__ == "__main__":
-    genre_vs_sentiment()
+# Perform hypothesis testing
+test_imdb_rt_ratings()
