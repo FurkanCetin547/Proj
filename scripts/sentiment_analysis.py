@@ -1,19 +1,17 @@
-# Sentiment analysis options
-SENTIMENT_MODELS = {
-    'textblob': TextBlob,
-    'vader': SentimentIntensityAnalyzer,  # from nltk.sentiment.vader
-    'transformers': 'bert-base-uncased'   # HuggingFace model
-}
+import pandas as pd
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import nltk
+nltk.download("vader_lexicon")
 
-# Sentiment thresholds (adjust based on your needs)
-SENTIMENT_THRESHOLDS = {
-    'positive': 0.1,
-    'negative': -0.1,
-    # Between -0.1 and 0.1 is neutral
-}
+reviews = pd.read_csv("data/processed/user_reviews.csv")
+sid = SentimentIntensityAnalyzer()
 
-def analyze_with_vader(text):
-    """Alternative sentiment analysis using VADER"""
-    from nltk.sentiment.vader import SentimentIntensityAnalyzer
-    analyzer = SentimentIntensityAnalyzer()
-    return analyzer.polarity_scores(text)['compound']
+def score_sentiment(text):
+    return sid.polarity_scores(text)["compound"]
+
+reviews["sentiment_score"] = reviews["review"].apply(score_sentiment)
+reviews["sentiment_label"] = reviews["sentiment_score"].apply(
+    lambda x: "positive" if x > 0.05 else ("negative" if x < -0.05 else "neutral")
+)
+
+reviews.to_csv("data/processed/reviews_with_sentiment.csv", index=False)
