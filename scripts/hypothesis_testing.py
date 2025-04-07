@@ -1,19 +1,13 @@
-# src/hypothesis_testing.py
-
 import pandas as pd
 from scipy import stats
 
 # Load data
-imdb_metadata_df = pd.read_csv('data/raw/IMDb/movies_metadata.csv')
-rt_metadata_df = pd.read_csv('data/raw/RottenTomatoes/movies_metadata.csv')
+imdb_metadata = pd.read_csv('data/raw/IMDb/movies_metadata.csv')
+imdb_reviews = pd.read_csv('data/raw/IMDb/movies_reviews.csv')
+rt_metadata = pd.read_csv('data/raw/RottenTomatoes/movies_metadata.csv')
 
-# Hypothesis testing functions
-def test_imdb_rt_ratings():
-    # Example: Test if there's a significant difference between IMDb and Rotten Tomatoes ratings
-    imdb_ratings = imdb_metadata_df['rating'].dropna()
-    rt_ratings = rt_metadata_df['rating'].dropna()
-    t_stat, p_value = stats.ttest_ind(imdb_ratings, rt_ratings)
-    print(f'T-test between IMDb and Rotten Tomatoes ratings: t-statistic = {t_stat}, p-value = {p_value}')
+# Example: Test if the average IMDb rating is different from Rotten Tomatoes rating
+merged_data = pd.merge(imdb_metadata, rt_metadata, on='title', suffixes=('_imdb', '_rt'))
+t_stat, p_value = stats.ttest_1samp(merged_data['rating_imdb'] - merged_data['rating_rt'], 0)
 
-# Perform hypothesis testing
-test_imdb_rt_ratings()
+print(f'T-statistic: {t_stat}, P-value: {p_value}')
