@@ -1,18 +1,18 @@
-# Define hypothesis tests
-HYPOTHESES = [
-    "Sentiment scores have become more positive over time",
-    "Action movies receive more negative reviews than Drama movies",
-    "Oscar-winning movies have higher sentiment scores than non-winners"
-]
+import pandas as pd
+from scipy.stats import ttest_ind
 
-def test_oscar_winner_hypothesis(df):
-    """Test if Oscar winners have higher sentiment"""
-    if 'oscar_winner' in df.columns:
-        winners = df[df['oscar_winner']]['sentiment']
-        others = df[~df['oscar_winner']]['sentiment']
-        
-        t_stat, p_value = stats.ttest_ind(winners, others)
-        print(f"\nOscar Winners vs Others: p-value = {p_value:.4f}")
-        if p_value < 0.05:
-            print("Significant difference found")
-            print(f"Winner avg: {winners.mean():.2f}, Others avg: {others.mean():.2f}")
+data = pd.read_csv("data/processed/reviews_with_sentiment.csv")
+
+def genre_vs_sentiment():
+    df = pd.read_csv("data/processed/movie_metadata.csv")
+    merged = pd.merge(data, df, on="title")
+    genres = merged.explode("genres")
+
+    # Compare Drama vs Comedy sentiment
+    drama = genres[genres["genres"] == "Drama"]["sentiment_score"]
+    comedy = genres[genres["genres"] == "Comedy"]["sentiment_score"]
+    stat, p = ttest_ind(drama, comedy, nan_policy='omit')
+    print(f"T-test between Drama and Comedy sentiment: p={p:.4f}")
+
+if __name__ == "__main__":
+    genre_vs_sentiment()
