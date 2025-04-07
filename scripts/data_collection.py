@@ -1,14 +1,8 @@
-# src/data_collection.py
+# data_collection.py
 
 import os
 import pandas as pd
 from imdb import IMDb
-import requests
-from bs4 import BeautifulSoup
-
-# Create necessary directories
-os.makedirs('data/raw/IMDb', exist_ok=True)
-os.makedirs('data/raw/RottenTomatoes', exist_ok=True)
 
 # Initialize IMDb object
 ia = IMDb()
@@ -48,25 +42,5 @@ def fetch_imdb_data():
     metadata_df.to_csv('data/raw/IMDb/movies_metadata.csv', index=False)
     reviews_df.to_csv('data/raw/IMDb/movies_reviews.csv', index=False)
 
-# Function to fetch Rotten Tomatoes data
-def fetch_rotten_tomatoes_data():
-    url = 'https://www.rottentomatoes.com/top/bestofrt/top_100_action__adventure_movies/'
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    movies = soup.select('td.titleColumn')
-    movie_data = []
-    for movie in movies:
-        title = movie.select('a')[0].text
-        year = movie.select('span.secondaryInfo')[0].text.strip('()')
-        rating = movie.select('span.tMeterScore')[0].text.strip()
-        movie_data.append({
-            'title': title,
-            'year': year,
-            'rating': rating
-        })
-    df = pd.DataFrame(movie_data)
-    df.to_csv('data/raw/RottenTomatoes/movies_metadata.csv', index=False)
-
 # Fetch data
 fetch_imdb_data()
-fetch_rotten_tomatoes_data()
