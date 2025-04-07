@@ -82,16 +82,3 @@ The project aims to uncover the following insights:
 - Explore the impact of external factors (e.g., box office performance, awards) on sentiment.
 
 ----
-## Project Files:
-- `main.py` → Runs the entire analysis.
-- `data_collection.py` → Collects movie reviews.
-- `sentiment_analysis.py` → Assigns sentiment scores.
-- `eda.py` → Explores and visualizes data.
-- `hypothesis_testing.py` → Performs statistical hypothesis testing.
-
-## Installation Setup
-```bash
-git clone https://github.com/FurkanCetin547/Proj.git
-cd Proj
-pip install -r requirements.txt
-python -m nltk.downloader vader_lexicon
