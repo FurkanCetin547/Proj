@@ -1,46 +1,81 @@
+# src/data_collection.py
+
 import os
 import pandas as pd
 from imdb import IMDb
+from crawlbase import CrawlingAPI
 from bs4 import BeautifulSoup
-import requests
 
+# Initialize the IMDb and Crawlbase API
 ia = IMDb()
+crawling_api = CrawlingAPI({'token': 'YOUR_CRAWLBASE_TOKEN'})
 
-def fetch_movie_metadata(title):
-    results = ia.search_movie(title)
-    if not results:
-        return None
-    movie = ia.get_movie(results[0].movieID)
-    return {
-        "title": movie.get("title"),
-        "year": movie.get("year"),
-        "genres": movie.get("genres"),
-        "rating": movie.get("rating"),
-        "votes": movie.get("votes"),
-        "directors": [d['name'] for d in movie.get("directors", [])],
-        "plot": movie.get("plot outline")
-    }
+# List of movie IDs and titles
+movie_ids = ['0133093', '1375666', '0468569']
+movie_titles = ['Inception', 'The Dark Knight', 'Interstellar']
 
-def scrape_rt_reviews(url, max_reviews=50):
-    headers = {"User-Agent": "Mozilla/5.0"}
-    page = requests.get(url, headers=headers)
-    soup = BeautifulSoup(page.content, 'html.parser')
-    reviews = [r.get_text(strip=True) for r in soup.find_all("p", class_="review-text")[:max_reviews]]
-    return reviews
+# Create directories to store the raw data
+os.makedirs('data/raw/IMDb', exist_ok=True)
+os.makedirs('data/raw/RottenTomatoes', exist_ok=True)
 
-def save_data():
-    movie_titles = ["The Godfather", "Parasite", "Avengers: Endgame", "Titanic"]
-    metadata = [fetch_movie_metadata(title) for title in movie_titles if title]
-    pd.DataFrame(metadata).to_csv("data/processed/movie_metadata.csv", index=False)
+# Function to fetch IMDb data
+def fetch_imdb_data():
+    movies_metadata = []
+    movies_reviews = []
+    for movie_id in movie_ids:
+        movie = ia.get_movie(movie_id)
+        metadata = {
+            'movie_id': movie_id,
+            'title': movie.get('title', ''),
+            'year': movie.get('year', ''),
+            'genres': ', '.join(movie.get('genres', [])),
+            'rating': movie.get('rating', ''),
+            'votes': movie.get('votes', ''),
+            'plot': movie.get('plot', [''])[0]
+        }
+        movies_metadata.append(metadata)
+        ia.update(movie, 'reviews')
+        reviews = movie.get('reviews', [])
+        for review in reviews:
+            review_data = {
+                'movie_id': movie_id,
+                'reviewer': review.get('author', ''),
+                'date': review.get('date', ''),
+                'rating': review.get('rating', ''),
+                'text': review.get('text', '')
+            }
+            movies_reviews.append(review_data)
+    metadata_df = pd.DataFrame(movies_metadata)
+    reviews_df = pd.DataFrame(movies_reviews)
+    metadata_df.to_csv('data/raw/IMDb/movies_metadata.csv', index=False)
+    reviews_df.to_csv('data/raw/IMDb/movies_reviews.csv', index=False)
 
-    reviews = []
+# Function to fetch Rotten Tomatoes data
+def fetch_rotten_tomatoes_data():
+    movies_metadata = []
     for title in movie_titles:
-        rt_url = f"https://www.rottentomatoes.com/m/{title.lower().replace(' ', '_')}/reviews?type=user"
-        user_reviews = scrape_rt_reviews(rt_url)
-        for r in user_reviews:
-            reviews.append({"title": title, "review": r})
-    
-    pd.DataFrame(reviews).to_csv("data/processed/user_reviews.csv", index=False)
+        search_url = f'https://www.rottentomatoes.com/search?search={title}'
+        response = crawling_api.get(search_url)
+        if response['headers']['pc_status'] == '200':
+            soup = BeautifulSoup(response['body'].decode('utf-8'), 'html.parser')
+            movie_link = soup.find('a', class_='unstyled articleLink')
+            if movie_link:
+                movie_url = 'https://www.rottentomatoes.com' + movie_link['href']
+                movie_page_response = crawling_api.get(movie_url)
+                if movie_page_response['headers']['pc_status'] == '200':
+                    movie_soup = BeautifulSoup(movie_page_response['body'].decode('utf-8'), 'html.parser')
+                    metadata = {
+                        'title': title,
+                        'url': movie_url,
+                        'rating': movie_soup.find('span', class_='sc-16ede01-2').text if movie_soup.find('span', class_='sc-16ede01-2') else '',
+                        'synopsis': movie_soup.find('span', class_='sc-16ede01-3').text if movie_soup.find('span', class_='sc-16ede01-3') else '',
+                        'genres': ', '.join([genre.text for genre in movie_soup.find_all('span', class_='sc-16ede01-4')]),
+                        'release_date': movie_soup.find('span', class_='sc-16ede01-5').text if movie_soup.find('span', class_='sc-16ede01-5') else ''
+                    }
+                    movies_metadata.append(metadata)
+    metadata_df = pd.DataFrame(movies_metadata)
+    metadata_df.to_csv('data/raw/RottenTomatoes/movies_metadata.csv', index=False)
 
-if __name__ == "__main__":
-    save_data()
+# Fetch data
+fetch_imdb_data()
+fetch_rotten_tomatoes_data()
