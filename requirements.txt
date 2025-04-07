@@ -1,9 +1,5 @@
 pandas
-numpy
+IMDbPY
+crawlbase
 beautifulsoup4
-imdbpy
-requests
-matplotlib
-seaborn
-nltk
 scipy
