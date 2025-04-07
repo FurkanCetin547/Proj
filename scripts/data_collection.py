@@ -1,30 +1,46 @@
-# Sample IMDB dataset URL (from Kaggle)
-IMDB_DATASET_URL = "https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews"
+import os
+import pandas as pd
+from imdb import IMDb
+from bs4 import BeautifulSoup
+import requests
 
-# Rotten Tomatoes API (you'll need an API key)
-RT_API_URL = "https://www.rottentomatoes.com/api/private/v2.0/search/"
-RT_API_KEY = "your_api_key_here"  # Register at developer.rottentomatoes.com
+ia = IMDb()
 
-# TMDB API for movie metadata
-TMDB_API_URL = "https://api.themoviedb.org/3/"
-TMDB_API_KEY = "your_tmdb_api_key"  # Register at themoviedb.org
+def fetch_movie_metadata(title):
+    results = ia.search_movie(title)
+    if not results:
+        return None
+    movie = ia.get_movie(results[0].movieID)
+    return {
+        "title": movie.get("title"),
+        "year": movie.get("year"),
+        "genres": movie.get("genres"),
+        "rating": movie.get("rating"),
+        "votes": movie.get("votes"),
+        "directors": [d['name'] for d in movie.get("directors", [])],
+        "plot": movie.get("plot outline")
+    }
 
-# Sample movie URLs for scraping (if needed)
-SAMPLE_MOVIE_URLS = [
-    "https://www.imdb.com/title/tt0111161/",  # Shawshank Redemption
-    "https://www.rottentomatoes.com/m/the_shawshank_redemption",
-    "https://www.imdb.com/title/tt0068646/"   # The Godfather
-]
+def scrape_rt_reviews(url, max_reviews=50):
+    headers = {"User-Agent": "Mozilla/5.0"}
+    page = requests.get(url, headers=headers)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    reviews = [r.get_text(strip=True) for r in soup.find_all("p", class_="review-text")[:max_reviews]]
+    return reviews
 
-def get_imdb_data():
-    """Load IMDB data from CSV or download from Kaggle"""
-    try:
-        # Option 1: Load from local CSV
-        return pd.read_csv("data/imdb_reviews.csv")
-    except FileNotFoundError:
-        # Option 2: Download from Kaggle (requires kaggle API)
-        from kaggle.api.kaggle_api_extended import KaggleApi
-        api = KaggleApi()
-        api.authenticate()
-        api.dataset_download_files('lakshmi25npathi/imdb-dataset-of-50k-movie-reviews', path='data', unzip=True)
-        return pd.read_csv("data/IMDB Dataset.csv")
+def save_data():
+    movie_titles = ["The Godfather", "Parasite", "Avengers: Endgame", "Titanic"]
+    metadata = [fetch_movie_metadata(title) for title in movie_titles if title]
+    pd.DataFrame(metadata).to_csv("data/processed/movie_metadata.csv", index=False)
+
+    reviews = []
+    for title in movie_titles:
+        rt_url = f"https://www.rottentomatoes.com/m/{title.lower().replace(' ', '_')}/reviews?type=user"
+        user_reviews = scrape_rt_reviews(rt_url)
+        for r in user_reviews:
+            reviews.append({"title": title, "review": r})
+    
+    pd.DataFrame(reviews).to_csv("data/processed/user_reviews.csv", index=False)
+
+if __name__ == "__main__":
+    save_data()
