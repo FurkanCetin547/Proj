@@ -51,7 +51,7 @@ The primary data for this project will be sourced from publicly available datase
 - Visualize relationships between sentiment and box office earnings or awards.
 
 ---
-##Hyothesis
+## Hyothesis
 There is no significant difference in sentiment scores between different movie genres.
 
 ## Findings
