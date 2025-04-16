@@ -7,8 +7,7 @@ This project is a DSA210 term project aimed at analyzing **Sentiment Trends Over
 ## Motivation
 Movies are a significant part of our culture, and understanding how audiences perceive them over time and across genres can provide valuable insights into changing tastes, societal trends, and the impact of different filmmaking styles. This project aims to explore two key aspects of movie reviews:
 
-1. **Sentiment Trends Over Time**: How have movie review sentiments evolved over the years? Are newer movies receiving more positive or negative reviews compared to older ones?
-2. **Genre-Based Sentiment Analysis**: Are there significant differences in sentiment across movie genres? Do certain genres consistently receive more polarized or positive reviews?
+1. **Genre-Based Sentiment Analysis**: Are there significant differences in sentiment across movie genres? Do certain genres consistently receive more polarized or positive reviews?
 
 By analyzing these aspects, we can uncover patterns in audience preferences, the impact of genre on reception, and how the film industry has adapted to changing viewer expectations.
 
@@ -52,6 +51,8 @@ The primary data for this project will be sourced from publicly available datase
 - Visualize relationships between sentiment and box office earnings or awards.
 
 ---
+##Hyothesis
+There is no significant difference in sentiment scores between different movie genres.
 
 ## Findings
 The project aims to uncover the following insights:
