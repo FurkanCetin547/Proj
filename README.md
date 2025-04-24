@@ -83,17 +83,3 @@ The project aims to uncover the following insights:
 
 ## Project Structure
 
-- `data/`: Contains raw data collected from IMDb and Rotten Tomatoes.
-  - `raw/`: Raw data files.
-    - `IMDb/`: Data collected from IMDb.
-    - `RottenTomatoes/`: Data collected from Rotten Tomatoes.
-- `src/`: Source code for data collection, analysis, and hypothesis testing.
-  - `__init__.py`: Marks the directory as a Python package.
-  - `data_collection.py`: Scripts to collect data from IMDb and Rotten Tomatoes.
-  - `data_analysis.py`: Scripts to analyze the collected data.
-  - `genre_analysis.py`: Scripts for analyzing sentiment across movie genres.
-- `tests/`: Unit tests for the source code.
-  - `__init__.py`: Marks the directory as a Python package.
-  - `test_data_collection.py`: Tests for data collection scripts.
-  - `test_data_analysis.py`: Tests for the data analysis scripts.
-  - `test_genre_analysis.py`: Tests for the genre-based sentiment analysis scripts.
