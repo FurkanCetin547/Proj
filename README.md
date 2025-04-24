@@ -1,11 +1,11 @@
-# Project Proposal: Sentiment Trends Over Time and Genre-Based Sentiment Analysis in Movie Reviews
+# Project Proposal: Genre-Based Sentiment Analysis in Movie Reviews
 
-This project is a DSA210 term project aimed at analyzing **Sentiment Trends Over Time** and **Genre-Based Sentiment Analysis** in movie reviews.
+This project is a DSA210 term project aimed at analyzing **Genre-Based Sentiment Analysis** in movie reviews.
 
 ---
 
 ## Motivation
-Movies are a significant part of our culture, and understanding how audiences perceive them over time and across genres can provide valuable insights into changing tastes, societal trends, and the impact of different filmmaking styles. This project aims to explore two key aspects of movie reviews:
+Movies are a significant part of our culture, and understanding how audiences perceive them across genres can provide valuable insights into changing tastes, societal trends, and the impact of different filmmaking styles. This project aims to explore the following key aspect of movie reviews:
 
 1. **Genre-Based Sentiment Analysis**: Are there significant differences in sentiment across movie genres? Do certain genres consistently receive more polarized or positive reviews?
 
@@ -18,12 +18,12 @@ The primary data for this project will be sourced from publicly available datase
 
 ### Movie Reviews
 - **Source**: IMDb, Rotten Tomatoes, or Kaggle datasets (e.g., IMDb Movie Reviews or Rotten Tomatoes Movie Reviews).
-- **Collection**: Downloading pre-existing datasets. Metadata such as genre, release year, box office earnings, and director information will be added from IMDb or The Movie Database.
+- **Collection**: Downloading pre-existing datasets. Metadata such as genre, box office earnings, and director information will be added from IMDb or The Movie Database.
 
 ### Enhancement with Additional Datasets
 - **Box Office Earnings**: To explore the relationship between sentiment and financial success.
 - **Awards Data**: To analyze whether award-winning movies receive more positive reviews.
-- **Social Media Reactions**: Social media platforms (Reddit etc.) for audience reactions to movies.
+- **Social Media Reactions**: Social media platforms (Reddit, etc.) for audience reactions to movies.
 
 ---
 
@@ -36,39 +36,36 @@ The primary data for this project will be sourced from publicly available datase
 
 ### 2. Feature Engineering
 - **Sentiment Scores**: Use models to generate sentiment scores (positive, negative, neutral) for each review.
-- **Time-Based Features**: Create features such as release year and decade to analyze trends over time.
 - **Genre-Based Features**: Encode genres as categorical variables for comparison.
 - **Box Office Normalization**: Normalize box office earnings for inflation to ensure fair comparisons across years.
 
 ### 3. Sentiment Analysis
 - **Sentiment Classification**: Use models to classify reviews as positive, negative, or neutral based on their text.
-- **Trend Analysis**: Analyze how sentiment scores change over time and across different genres.
+- **Genre-Based Sentiment Analysis**: Analyze how sentiment varies across different genres.
 - **Model Evaluation**: Check the accuracy of sentiment classification using labeled data to ensure reliable results.
 
 ### 4. Visualization
-- Create time series plots to show sentiment trends over time.
 - Use bar charts, box plots, and heatmaps to compare sentiment across genres.
-- Visualize relationships between sentiment and box office earnings or awards.
+- Visualize relationships between sentiment and box office earnings or awards within each genre.
 
 ---
-## Hyothesis
-There is no significant difference in sentiment scores between different movie genres.
+
+## Hypothesis
+There are significant differences in sentiment scores between different movie genres.
+
+---
 
 ## Findings
 The project aims to uncover the following insights:
 
-### Sentiment Trends Over Time
-- Are newer movies receiving more positive or negative reviews compared to older ones?
-- Are there specific years or decades where sentiment shifted significantly?
-
 ### Genre-Based Sentiment Analysis
 - Which genres receive the most positive or negative reviews?
 - Are certain genres more polarizing (e.g., horror, comedy)?
-- Do genre-specific trends align with broader cultural or societal changes?
+- How do specific genres align with broader cultural or societal changes?
 
 ### Additional Insights
-- Is there a correlation between box office earnings and sentiment scores?
-- Do award-winning movies receive more positive reviews?
+- Is there a correlation between box office earnings and sentiment scores within each genre?
+- Do award-winning movies within each genre receive more positive reviews?
 
 ---
 
@@ -76,13 +73,13 @@ The project aims to uncover the following insights:
 
 ### Limitations
 - The accuracy of sentiment analysis depends on the quality of the NLP model and the dataset.
-- Data availability for older movies may be limited.
+- Data availability for certain genres may be limited.
 
 ### Future Work
 - Incorporate additional data sources, such as social media reactions or critic reviews, to enrich the analysis.
-- Explore the impact of external factors (e.g., box office performance, awards) on sentiment.
+- Explore the impact of external factors (e.g., box office performance, awards) on sentiment within each genre.
 
-----
+---
 
 ## Project Structure
 
@@ -94,9 +91,9 @@ The project aims to uncover the following insights:
   - `__init__.py`: Marks the directory as a Python package.
   - `data_collection.py`: Scripts to collect data from IMDb and Rotten Tomatoes.
   - `data_analysis.py`: Scripts to analyze the collected data.
-  - `hypothesis_testing.py`: Scripts to perform hypothesis testing on the data.
+  - `genre_analysis.py`: Scripts for analyzing sentiment across movie genres.
 - `tests/`: Unit tests for the source code.
   - `__init__.py`: Marks the directory as a Python package.
   - `test_data_collection.py`: Tests for data collection scripts.
-  - `test_data_analysis.py`:
-::contentReference[oaicite:14]{index=14}
+  - `test_data_analysis.py`: Tests for the data analysis scripts.
+  - `test_genre_analysis.py`: Tests for the genre-based sentiment analysis scripts.
