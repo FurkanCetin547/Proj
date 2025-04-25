@@ -81,5 +81,20 @@ The project aims to uncover the following insights:
 
 ---
 
+
 ## Project Structure
 
+1. **Data Collection and Preprocessing**:
+   - Data is gathered from IMDb and Rotten Tomatoes datasets and preprocessed to ensure clean data for analysis.
+
+2. **Exploratory Data Analysis (EDA)**:
+   - Perform initial exploratory analysis and visualize genre distribution, ratings, and correlations.
+
+3. **Sentiment and Rating Analysis**:
+   - The project analyzes sentiment across different genres, using statistical methods such as permutation tests.
+
+4. **Statistical Hypothesis Testing**:
+   - Hypothesis testing using randomization tests to compare average ratings for movies with and without specific genres.
+
+5. **Data Visualizations**:
+   - Visualizations of statistical tests, average ratings, and genre distributions.
