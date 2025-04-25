@@ -1,5 +1,1 @@
-pandas
-IMDbPY
-crawlbase
-beautifulsoup4
-scipy
+
